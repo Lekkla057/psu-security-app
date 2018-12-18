@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="ejs.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCbGE0Udjmrs2c7Y6l52XO49skTH8VIn88",
+      authDomain: "soaa-d26f8.firebaseapp.com",
+      databaseURL: "https://soaa-d26f8.firebaseio.com",
+      projectId: "soaa-d26f8",
+      storageBucket: "soaa-d26f8.appspot.com",
+      messagingSenderId: "875749411300"
+    };
+    firebase.initializeApp(config);
+    var db = firebase.firestore();
+    // Disable deprecated features
+    db.settings({
+      timestampsInSnapshots: true
+    });
+  </script>
+  <title>PSU security guard</title>
+</head>
+
+<body >
+   
+  <ons-navigator swipeable id="myNavigator" page="home.html">
+    <ons-page id='mypage' >
+
+      <ons-splitter>
+        <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+          <ons-page>
+
+            <div style="margin-left:0%;margin-top: 10% ">
+              <img src="https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1410043/1160/772/m1/fpnw/wm0/policeman-officer-flat-icon-01-.jpg?1467214263&s=c1df3eedb45c9c1de1cfaa25d651d30c" width="220" height="150"
+                style="border-radius: 50%" />
+              
+            </div>
+            <div>
+
+              <h1 style="text-align: center;" >Security guard</h1>
+            </div>
+            <ons-list>
+              <ons-list-item style="background-color: #4682B4; color: white;" onclick="re()" tappable>
+                <ons-icon icon="fa-home" style="color: white;" size="20px" style="text-align:center;"></ons-icon> &nbsp Home 
+              </ons-list-item>
+              
+              <ons-list-item style="background-color: #4682B4; color: white;" onclick="scanQR()" tappable>
+                <ons-icon style="color: white;" icon="fa-camera-retro" size="20px" style="text-align:center;"></ons-icon> &nbsp Scan
+              </ons-list-item>
+             
+              <ons-list>
+                <ons-list-item  style="background-color: #4682B4; color: white;" onclick="logout()" tappable>
+                    <ons-icon style="color: white;" icon="fa-sign-out-alt" size="20px" style="text-align:center;"></ons-icon> &nbsp Logout
+                </ons-list-item>
+            </ons-list>
+          </ons-page>
+        </ons-splitter-side>
+        <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+      </ons-splitter>
+    </ons-page>
+  </ons-navigator>
+
+  <template id="home.html">
+
+    <ons-page>
+      <ons-toolbar style="background-color: #143c6d;">
+        <div class="left">
+          <ons-toolbar-button onclick="fn.open()">
+            <ons-icon icon="md-menu"style="color: white;"></ons-icon>
+          </ons-toolbar-button>
+        </div> 
+        <div class="center"style="color: white; text-align: center;">
+          PSU HOME
+        </div>
+        <div class="right">
+            <ons-toolbar-button >
+                <ons-icon icon="fa-camera-retro"  style="text-align:center;color: white;" onclick="scanQR()"></ons-icon>
+            </ons-toolbar-button>
+          </div> 
+      
+      </ons-toolbar>
+
+     
+     
+        </div><center>
+     
+        <ons-row ><ons-col>
+            <p>
+                <img class="" src="https://firebasestorage.googleapis.com/v0/b/soaa-d26f8.appspot.com/o/photo%2FLogopsu.png?alt=media&token=a8090874-de9a-45ad-99ae-2b1772cd6e9c" width="60%"height="40%">
+            </p>
+         </ons-col>
+        </ons-row></center>
+
+      </p>
+      <p style="text-align: center; margin-top: 10px;">
+          <ons-search-input class="box" placeholder="Search" onchange="search(this.value)">
+        </p>
+      <p style="text-align: center; opacity: 0.6; padding-top: 20px;">
+        <div class="btn-group" role="group" aria-label="">
+        </div>
+        
+
+      </p>   <ons-row id="show">
+            
+          </ons-row>
+    </ons-page>
+  </template>
+
+  <template id="detail.html">
+    <ons-page id='mypage' >
+      <ons-toolbar style="background-color: #143c6d;" >
+        <div class="left">
+          <ons-back-button onclick="re()" style="color: white;" >Back</ons-back-button>
+        </div>
+        <div class="center" style="color: white; text-align: center;" >Detail</div>
+      </ons-toolbar>
+      
+      <div class="center">
+        
+      </div>
+     
+      <ons-row >
+       
+      </ons-row>
+<ons-row id="tong">
+        <!-- //  <ons-icon icon="fa-camera-retro" size="200px" style="text-align:center;" onclick="scanQR()"></ons-icon> -->
+        </ons-row>
+    </ons-page>
+  </template>
+  <style>
+      .box {border-radius: 20px;}
+      #mypage .page__background { background: url('https://i.pinimg.com/originals/c5/79/f8/c579f8ce09c01721877eb81b84979f90.jpg')}
+    </style>
+</body>
+
+<script>
+  tatol()
+  window.fn = {};
+
+  window.fn.open = function () {
+    var menu = document.getElementById('menu');
+    menu.open();
+  };
+
+  window.fn.load = function (page) {
+    var content = document.getElementById('content');
+    var menu = document.getElementById('menu');
+    content.load(page)
+      .then(menu.close.bind(menu));
+  };
+
+
+
+
+
+
+
+
+
+
+
+  const data = []
+
+
+
+  function tatol() {
+    var code = localStorage.getItem('code');
+    if (code != null) {myNavigator.pushPage('detail.html')  
+      page(code) }
+    else {
+      console.log('llllllllllllllllllllllll');
+      db.collection("confirm").get()
+        .then(function (querySnapshot) {
+          querySnapshot.docs.forEach(function (item) {
+            data.push(item)
+            console.log(data)
+          });
+
+        })
+      // const fruits = data[1];
+    }
+  }
+  function search(search) {
+
+    const filterItems = (needle, heystack) => {
+      let query = needle.toLowerCase();
+      return heystack.filter(item => item.data().carnumber.toLowerCase().indexOf(needle) >= 0);
+    }
+    console.log("55+", filterItems(search.toLowerCase(), data));
+    var item = filterItems(search.toLowerCase(), data);
+   
+    showsearch(item)
+  }
+  function showsearch(item) {
+    var html = ''
+    item.forEach(function (item) {
+      html += '<ons-col width="50%" onclick="changepage(' + "'" + item.data().carnumber + "'" + ')">' + '<ons-card>' +
+        '<img src="https://dorm.psu.ac.th/system/files/images/psu-logo.png" alt="Onsen UI" style="width: 100%">' +
+        '<div class="title" style="text-align: center;" >' +
+        item.data().carnumber +
+        '</div>' +
+        '<div class="content">' +
+
+        '<ons-list>' +
+        '<ons-list-header>'+'ชื่อ: '+ item.data().name +'</ons-list-header>' +
+        '<ons-list-item>'+'ยี่ห้อ: '+ item.data().brand +'</ons-list-item>' +
+
+
+        '</ons-list>' +
+        '</div>' +
+        '</ons-col>' + '</ons-card>'
+      console.log(html);
+
+    }); document.getElementById('show').innerHTML = html
+  }
+  function logout() {
+            firebase.auth().signOut().then(function () {
+                ons.notification.alert('See you again').then(function () {
+
+                    window.location.href = 'login.html';
+                });
+            }).catch(function (error) {
+
+            });
+        }
+  function scanQR() {
+    window.location.href = 'scan.html'
+  }
+  function changepage(mail) {
+  console.log("tong",mail);
+    page(mail)
+
+    myNavigator.pushPage('detail.html') 
+  
+  }
+  function page(mail) {
+    ons.notification.alert(mail);
+    console.log(mail+"ddddddddddddddd");
+    
+    db.collection("confirm").where('carnumber','==',mail).get()
+        .then(function (querySnapshot) {
+          console.log(querySnapshot.docs);
+          querySnapshot.docs.forEach(function (item) {
+          
+            console.log(mail+"ๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆ");
+
+     var html = '<ons-col width="100%" >' + '<ons-card>' +
+         '<img src="https://dorm.psu.ac.th/system/files/images/psu-logo.png" alt="Onsen UI" style="width: 100%">'+
+        '<div class="title">' +
+        item.data().name +
+        '</div>' +
+        '<div class="content">' +
+
+        '<ons-list>' +
+        '<ons-list-header>'+'Email: '+item.data().email +'</ons-list-header>' +
+        '<ons-list-item>'+'ป้ายทะเบียน: '+item.data().carnumber +'</ons-list-item>' +
+        '<ons-list-item>'+'ยี่ห้อ: '+ item.data().brand +'</ons-list-item>' +
+
+        '</ons-list>' +
+        '</div>'
+         +'<ons-button class="box" style="background-color: rgb(15, 32, 58); width:33%; text-align: center;" onclick="come('+"'"+item.data().name+"'"+','+"'"+item.data().lastname+"'"+','+"'"+item.data().carnumber+"'"+')">เวลาเข้า</ons-button>' 
+         +'<ons-button class="box"  style="background-color: rgb(15, 32, 58); width:33%; text-align: center;" onclick="out('+"'"+item.data().name+"'"+','+"'"+item.data().lastname+"'"+','+"'"+item.data().carnumber+"'"+')">เวลาออก</ons-button>' 
+         +'<ons-button class="box"  style="background-color: rgb(218, 54, 54); width:33%; text-align: center;"onclick="remove('+"'"+item.data().name+"'"+','+"'"+item.data().lastname+"'"+','+"'"+item.data().carnumber+"'"+')">ทำผิด</ons-button>'
+        
+        '</ons-col>' + '</ons-card>'
+      console.log(html);
+document.getElementById('tong').innerHTML = html
+    }); localStorage.clear();
+          });
+
+   
+  }
+  function come(name,lastname,carnumber) {
+    ons.notification.alert('ส่งแล้ว');
+    var d = new Date();
+    var dd=JSON.stringify(d)
+    console.log(d);
+    
+    db.collection("come").add({
+    date: dd,
+    name:name,
+    lastname:lastname,
+    carnumber:carnumber
+})
+.then(function(docRef) {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch(function(error) {
+    console.error("Error adding document: ", error);
+});
+  }
+
+function out(name,lastname,carnumber) {
+  ons.notification.alert('ส่งแล้ว');
+    var d = new Date();
+    var dd=JSON.stringify(d)
+    db.collection("out").add({
+      date: dd,
+    name:name,
+    lastname:lastname,
+    carnumber:carnumber
+})
+.then(function(docRef) {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch(function(error) {
+    console.error("Error adding document: ", error);
+});
+  }
+function re() {
+  location.reload();
+}
+function remove(name,lastname,carnumber) {
+  ons.notification.prompt('Prompt!')
+    .then(function(input) {
+      var message = input ? 'หมายเหตุ: ' + input : 'Entered nothing!';
+    
+      var d = new Date();
+      var dd=JSON.stringify(d)
+    db.collection("rule").add({
+      date: dd,
+    name:name,
+    lastname:lastname,
+    carnumber:carnumber,
+    message:message
+})
+.then(function(docRef) {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch(function(error) {
+    console.error("Error adding document: ", error);
+});
+    
+    
+    
+    });
+    
+}
+//$('#tong').html('fffffffffffffffffffffffffffffff')
+
+
+// var div=document.getElementById('tong');
+// div.innerHTML='ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt';
+</script>
+
+</html>

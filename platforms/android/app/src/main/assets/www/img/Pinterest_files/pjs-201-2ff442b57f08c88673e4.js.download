@@ -1,0 +1,1 @@
+webpackJsonp([201],{b7Sg:function(e,t,a){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=i;var n=a("d6ZO"),r=a.n(n),u=a("bcks");function i(e){var t=e.editable,a=e.onEditSubmit,n=e.pinId,i=e.viewParameter;return r.a.createElement(r.a.Fragment,null,t&&r.a.createElement(u.a,{inCloseupHeaderRedesignExp:!0,pinId:n,onSubmit:a,view:3,viewParameter:i}))}}});
